@@ -32,7 +32,7 @@ public class Card {
     @JsonIgnoreProperties("card")
     private List<Book> books;
 
-    public Card(){
+    public Card(Student student){
         this.cardStatus = CardStatus.ACTIVATED;
     }
 }

@@ -8,34 +8,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentService {
 
+    @Autowired
+    CardService cardService;
 
     @Autowired
-    CardService cardService4;
+    StudentRepository studentRepository;
 
-    @Autowired
-    StudentRepository studentRepository4;
-
-    public Student getDetailsByEmail(String email){
-        Student student = null;
-
-        return student;
+    public Student getDetailsByEmail(String email) {
+        return studentRepository.findByEmail(email);
     }
 
-    public Student getDetailsById(int id){
-        Student student = null;
-
-        return student;
+    public Student getDetailsById(int id) {
+        return studentRepository.findById(id);
     }
 
-    public void createStudent(Student student){
-
+    public void createStudent(Student student) {
+        studentRepository.save(student);
     }
 
-    public void updateStudent(Student student){
-
+    public void updateStudent(Student student) {
+        studentRepository.update(student);
     }
 
-    public void deleteStudent(int id){
-        //Delete student and deactivate corresponding card
+    public void deleteStudent(int id) {
+        Student student = studentRepository.findById(id);
+        if (student != null) {
+            cardService.deactivateCard(id);
+            studentRepository.delete(student);
+        }
     }
 }

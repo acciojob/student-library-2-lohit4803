@@ -10,16 +10,14 @@ import java.util.List;
 @Service
 public class BookService {
 
-
     @Autowired
-    BookRepository bookRepository2;
+    BookRepository bookRepository;
 
-    public void createBook(Book book){
-        bookRepository2.save(book);
+    public void createBook(Book book) {
+        bookRepository.save(book);
     }
 
-    public List<Book> getBooks(String genre, boolean available, String author){
-        List<Book> books = null; //find the elements of the list by yourself
-        return books;
+    public List<Book> getBooks(String genre, boolean availability, String author) {
+        return bookRepository.findBooks(genre, availability, author);
     }
 }
