@@ -5,21 +5,22 @@ import com.driver.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class StudentService {
 
     @Autowired
-    CardService cardService;
-
-    @Autowired
-    StudentRepository studentRepository;
+    private StudentRepository studentRepository;
 
     public Student getDetailsByEmail(String email) {
-        return studentRepository.findByEmail(email);
+        Optional<Student> optionalStudent = studentRepository.findByEmail(email);
+        return optionalStudent.orElse(null);
     }
 
     public Student getDetailsById(int id) {
-        return studentRepository.findById(id);
+        Optional<Student> optionalStudent = studentRepository.findById(id);
+        return optionalStudent.orElse(null);
     }
 
     public void createStudent(Student student) {
@@ -27,14 +28,10 @@ public class StudentService {
     }
 
     public void updateStudent(Student student) {
-        studentRepository.update(student);
+        studentRepository.save(student);
     }
 
     public void deleteStudent(int id) {
-        Student student = studentRepository.findById(id);
-        if (student != null) {
-            cardService.deactivateCard(id);
-            studentRepository.delete(student);
-        }
+        studentRepository.deleteById(id);
     }
 }

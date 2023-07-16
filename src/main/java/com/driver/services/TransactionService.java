@@ -17,13 +17,13 @@ import java.util.List;
 public class TransactionService {
 
     @Autowired
-    BookRepository bookRepository;
+    private BookRepository bookRepository;
 
     @Autowired
-    CardRepository cardRepository;
+    private CardRepository cardRepository;
 
     @Autowired
-    TransactionRepository transactionRepository;
+    private TransactionRepository transactionRepository;
 
     @Value("${books.max_allowed}")
     private int maxAllowedBooks;

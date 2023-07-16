@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -18,7 +18,7 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn
-    @JsonIgnoreProperties("books")
+    @JsonIgnoreProperties("transactions")
     private Card card;
 
     @ManyToOne
@@ -28,13 +28,61 @@ public class Transaction {
 
     private int fineAmount;
 
-    @Column(columnDefinition = "TINYINT(1)")
     private boolean isIssueOperation;
 
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private TransactionStatus transactionStatus;
 
     @CreationTimestamp
-    private Date transactionDate;
-}
+    private LocalDate transactionDate;
 
+    public Transaction() {
+    }
+
+    public Transaction(Card card, Book book) {
+        this.card = card;
+        this.book = book;
+        this.isIssueOperation = true;
+        this.transactionStatus = TransactionStatus.PENDING;
+    }
+
+    public Transaction(Card card, Book book, int fineAmount) {
+        this.card = card;
+        this.book = book;
+        this.fineAmount = fineAmount;
+        this.isIssueOperation = false;
+        this.transactionStatus = TransactionStatus.PENDING;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public int getFineAmount() {
+        return fineAmount;
+    }
+
+    public boolean isIssueOperation() {
+        return isIssueOperation;
+    }
+
+    public TransactionStatus getTransactionStatus() {
+        return transactionStatus;
+    }
+
+    public LocalDate getTransactionDate() {
+        return transactionDate;
+    }
+}

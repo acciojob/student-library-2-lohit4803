@@ -11,13 +11,13 @@ import java.util.List;
 public class BookService {
 
     @Autowired
-    BookRepository bookRepository;
+    private BookRepository bookRepository;
 
     public void createBook(Book book) {
         bookRepository.save(book);
     }
 
     public List<Book> getBooks(String genre, boolean availability, String author) {
-        return bookRepository.findBooks(genre, availability, author);
+        return bookRepository.findBooksByGenreAndAvailabilityAndAuthor(genre, availability, author);
     }
 }

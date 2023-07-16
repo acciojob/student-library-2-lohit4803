@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Transactional
 public interface StudentRepository extends JpaRepository<Student, Integer> {
@@ -24,4 +25,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     void deleteCustom(int id);
 
     Student findByEmailId(String email);
+
+    Optional<Student> findByEmail(String email);
 }
