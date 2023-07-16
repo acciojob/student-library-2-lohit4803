@@ -1,55 +1,28 @@
-package com.driver.models;
+package com.library.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import com.driver.models.Card;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(unique = true)
-    private String emailId;
     private String name;
-    private int age; // in case we want to check on the basis of age while issuing
+
+    private int age;
 
     private String country;
 
-    public Student() {
-    }
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<Card> cards = new ArrayList<>();
 
-    // alter table student add foreign key constraint card references Card(id)
+    // Constructors, getters, and setters
 
-    @OneToOne
-    @JoinColumn   // join this column to the primary key of Card table
-    @JsonIgnoreProperties("student")
-    private Card card;
-
-
-    @CreationTimestamp
-    private Date createdOn;
-
-    @UpdateTimestamp
-    private Date updatedOn;
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", email='" + emailId + '\'' +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", country='" + country + '\'' +
-                ", createdOn=" + createdOn +
-                ", updatedOn=" + updatedOn +
-                '}';
-    }
-
-
+    // ...
 }

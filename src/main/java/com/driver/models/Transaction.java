@@ -1,91 +1,40 @@
 package com.driver.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.UUID;
+import java.util.Date;
 
 @Entity
 public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    private String transactionId = UUID.randomUUID().toString(); // externalId
+    private Long id;
 
     @ManyToOne
-    @JoinColumn
-    @JsonIgnoreProperties("transactions")
+    @JoinColumn(name = "card_id")
     private Card card;
 
     @ManyToOne
-    @JoinColumn
-    @JsonIgnoreProperties("transactions")
+    @JoinColumn(name = "book_id")
     private Book book;
 
-    private int fineAmount;
-
-    private boolean isIssueOperation;
+    private Date transactionDate;
 
     @Enumerated(EnumType.STRING)
     private TransactionStatus transactionStatus;
 
-    @CreationTimestamp
-    private LocalDate transactionDate;
-
     public Transaction() {
+        // Default constructor required by JPA
     }
 
-    public Transaction(Card card, Book book) {
+    public Transaction(Card card, Book book, TransactionStatus transactionStatus) {
         this.card = card;
         this.book = book;
-        this.isIssueOperation = true;
-        this.transactionStatus = TransactionStatus.PENDING;
+        this.transactionStatus = transactionStatus;
+        this.transactionDate = new Date();
     }
 
-    public Transaction(Card card, Book book, int fineAmount) {
-        this.card = card;
-        this.book = book;
-        this.fineAmount = fineAmount;
-        this.isIssueOperation = false;
-        this.transactionStatus = TransactionStatus.PENDING;
-    }
+    // Getters and setters
 
-    public int getId() {
-        return id;
-    }
-
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public Card getCard() {
-        return card;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public int getFineAmount() {
-        return fineAmount;
-    }
-
-    public boolean isIssueOperation() {
-        return isIssueOperation;
-    }
-
-    public TransactionStatus getTransactionStatus() {
-        return transactionStatus;
-    }
-
-    public LocalDate getTransactionDate() {
-        return transactionDate;
-    }
-
-    public void setFineAmount(int fineAmount) {
-    }
+    // ...
 }

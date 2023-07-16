@@ -1,37 +1,21 @@
 package com.driver.services;
 
-import com.driver.models.Student;
+
 import com.driver.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class StudentService {
 
+    private final StudentRepository studentRepository;
+
     @Autowired
-    private StudentRepository studentRepository;
-
-    public Student getDetailsByEmail(String email) {
-        Optional<Student> optionalStudent = studentRepository.findByEmail(email);
-        return optionalStudent.orElse(null);
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
 
-    public Student getDetailsById(int id) {
-        Optional<Student> optionalStudent = studentRepository.findById(id);
-        return optionalStudent.orElse(null);
-    }
+    // Implement service methods for Student
 
-    public void createStudent(Student student) {
-        studentRepository.save(student);
-    }
-
-    public void updateStudent(Student student) {
-        studentRepository.save(student);
-    }
-
-    public void deleteStudent(int id) {
-        studentRepository.deleteById(id);
-    }
+    // ...
 }

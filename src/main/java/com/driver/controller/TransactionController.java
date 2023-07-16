@@ -15,14 +15,14 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @PostMapping("/issueBook")
-    public ResponseEntity<String> issueBook(@RequestParam("cardId") int cardId, @RequestParam("bookId") int bookId) throws Exception {
+    public ResponseEntity<String> issueBook(@RequestParam("cardId") Long cardId, @RequestParam("bookId") Long bookId) throws Exception {
         String result = transactionService.issueBook(cardId, bookId);
         return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/returnBook")
-    public ResponseEntity<Transaction> returnBook(@RequestParam("cardId") int cardId, @RequestParam("bookId") int bookId) throws Exception {
-        Transaction transaction = transactionService.returnBook(cardId, bookId);
-        return new ResponseEntity<>(transaction, HttpStatus.ACCEPTED);
+    public ResponseEntity<String> returnBook(@RequestParam("cardId") Long cardId, @RequestParam("bookId") Long bookId) throws Exception {
+        String result = transactionService.returnBook(cardId, bookId);
+        return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
     }
 }

@@ -1,8 +1,7 @@
 package com.driver.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,21 +9,16 @@ public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
+
     private String name;
 
-    @Column(unique = true)
-    private String email;
-
-    private int age;
-    private String country;
+    private String nationality;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("author")
-    private List<Book> booksWritten;
+    private List<com.library.models.Book> books = new ArrayList<>();
 
-    public Author() {
-    }
+    // Constructors, getters, and setters
 
+    // ...
 }
-

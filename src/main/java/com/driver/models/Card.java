@@ -1,38 +1,52 @@
 package com.driver.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import javax.persistence.*;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 public class Card {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @OneToOne(mappedBy = "card", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("card")
-    private Student student;
-
-    @CreationTimestamp
-    private Date createdOn;
-
-    @UpdateTimestamp
-    private Date updatedOn;
-
-    @Enumerated(value = EnumType.STRING)
+    private Long id;
+    private com.library.models.Student student;
     private CardStatus cardStatus;
+    private List<Book> books;  // Add the List<Book> field
 
-    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("card")
-    private List<Book> books;
+    // Constructor, getters, and setters
 
-    public Card(Student student){
-        this.cardStatus = CardStatus.ACTIVATED;
+    public Card(Long id, com.library.models.Student student, CardStatus cardStatus) {
+        this.id = id;
+        this.student = student;
+        this.cardStatus = cardStatus;
+        this.books = new ArrayList<>();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public com.library.models.Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(com.library.models.Student student) {
+        this.student = student;
+    }
+
+    public CardStatus getCardStatus() {
+        return cardStatus;
+    }
+
+    public void setCardStatus(CardStatus cardStatus) {
+        this.cardStatus = cardStatus;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }

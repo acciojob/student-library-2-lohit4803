@@ -1,42 +1,58 @@
 package com.driver.models;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
-import java.util.List;
-
-@Entity
 public class Book {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    private String name;
-
-    @Enumerated(EnumType.STRING)
+    private Long id;
+    private String title;
     private Genre genre;
-
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnoreProperties("booksWritten")
     private Author author;
+    private Card card;  // Add the Card field
 
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnoreProperties("books")
-    private Card card;
+    // Constructor, getters, and setters
 
+    public Book(Long id, String title, Genre genre, Author author) {
+        this.id = id;
+        this.title = title;
+        this.genre = genre;
+        this.author = author;
+    }
 
-    @Column(columnDefinition = "TINYINT(1)")
-    private boolean available;
+    public Long getId() {
+        return id;
+    }
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("book")
-    private List<Transaction> transactions;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Book() {
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
     }
 }
-

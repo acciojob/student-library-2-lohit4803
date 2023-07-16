@@ -1,30 +1,9 @@
 package com.driver.repositories;
 
-import com.driver.models.Student;
+import com.library.models.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
-import java.util.Optional;
-
-@Transactional
-public interface StudentRepository extends JpaRepository<Student, Integer> {
-
-    @Modifying
-    @Query("update Student s set s.emailId = :#{#std.emailId}, " +
-            "s.name = :#{#std.name}, " +
-            "s.age = :#{#std.age} ," +
-            "s.country = :#{#std.country} " +
-            "where s.id = :#{#std.id}")
-    int updateStudentDetails(Student std);
-
-
-    @Modifying
-    @Query("delete from Student s where s.id =:id")
-    void deleteCustom(int id);
-
-    Student findByEmailId(String email);
-
-    Optional<Student> findByEmail(String email);
+@Repository
+public interface StudentRepository extends JpaRepository<Student, Long> {
 }
