@@ -85,4 +85,7 @@ public class Transaction {
     public LocalDate getTransactionDate() {
         return transactionDate;
     }
+
+    public void setFineAmount(int fineAmount) {
+    }
 }

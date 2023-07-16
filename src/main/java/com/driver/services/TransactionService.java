@@ -1,5 +1,7 @@
 package com.driver.services;
 
+import com.driver.models.Book;
+import com.driver.models.Card;
 import com.driver.models.Transaction;
 import com.driver.models.TransactionStatus;
 import com.driver.repositories.BookRepository;
@@ -36,7 +38,7 @@ public class TransactionService {
 
     public int calculateFineAmount(Transaction transaction) {
         LocalDate returnDate = LocalDate.now();
-        LocalDate dueDate = transaction.getIssuedDate().plusDays(maxAllowedDays);
+        LocalDate dueDate = transaction.getTransactionDate().plusDays(maxAllowedDays);
 
         long daysDiff = ChronoUnit.DAYS.between(dueDate, returnDate);
         if (daysDiff > 0) {
@@ -60,7 +62,11 @@ public class TransactionService {
             throw new Exception("Book limit has reached for this card");
         }
 
-        Transaction transaction = new Transaction(cardId, bookId);
+        // Get Card and Book entities from their respective repositories
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new Exception("Invalid Card ID"));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new Exception("Invalid Book ID"));
+
+        Transaction transaction = new Transaction(card, book);
         transactionRepository.save(transaction);
         return "Transaction successful! Transaction ID: " + transaction.getId();
     }
@@ -74,10 +80,11 @@ public class TransactionService {
         Transaction transaction = transactions.get(transactions.size() - 1);
         int fineAmount = calculateFineAmount(transaction);
 
-        Transaction returnBookTransaction = new Transaction(cardId, bookId, fineAmount);
-        transactionRepository.save(returnBookTransaction);
+        // Update the existing transaction with the fine amount
+        transaction.setFineAmount(fineAmount);
+        transactionRepository.save(transaction);
 
         bookRepository.makeBookAvailable(bookId);
-        return returnBookTransaction;
+        return transaction;
     }
 }
